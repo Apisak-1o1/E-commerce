@@ -40,7 +40,8 @@ model Product {
   images          Image[]
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
-  productOnCartId Int
+  category        Category?        @relation(fields: [categoryId], references: [id])
+  categoryId      Int?
 }
 
 model Order {
@@ -60,15 +61,16 @@ model ProductOnOrder {
   productId Int
   order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   orderId   Int
-  count Int
-  price Float
+  count     Int
+  price     Float
 }
 
 model Category {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Cart {
@@ -83,10 +85,10 @@ model Cart {
 
 model ProductOnCart {
   id     Int  @id @default(autoincrement())
-  cart   Cart @relation(fields: [cartId], references: [id])
+  cart   Cart @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId Int
 
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
   productId Int
 
   count Int
