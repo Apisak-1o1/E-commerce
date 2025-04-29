@@ -1,28 +1,23 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { createCategory, listCategory, removeCategory } from "../../api/Category";
+import { createCategory, removeCategory } from "../../api/Category";
 import { Plus,CircleMinus  } from "lucide-react";
 import useEcomStore from "../../store/ecom-store";
 import { toast } from "react-toastify";
 
 const FormCategory = () => {
   const token = useEcomStore((state) => state.token);
+  const category = useEcomStore((state) => state.categories);
+  const getCategory = useEcomStore((state) => state.getCategory);
 
   const [name, setName] = useState("");
-  const [category, setCategory] = useState([]);
+  // const [category, setCategory] = useState([]);
 
   useEffect(() => {
     getCategory(token);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getCategory = async (token) => {
-    try {
-      const res = await listCategory(token);
-      setCategory(res.data);
-      console.log("🚀 ~ getCategory ~ res:", res);
-    } catch (error) {
-      console.log("🚀 ~ getCategory ~ error:", error);
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,7 +63,7 @@ const FormCategory = () => {
               htmlFor="cate-name"
               className="absolute left-3 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-2 peer-focus:text-sm peer-focus:text-blue-500"
             >
-              Cateegory Name
+              Category Name
             </label>
           </div>
           <button
