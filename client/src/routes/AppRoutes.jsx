@@ -14,6 +14,7 @@ import Dashboard from '../pages/admin/Dashboard'
 import Category from '../pages/admin/Category'
 import Product from '../pages/admin//Product'
 import Manage from '../pages/admin/Manage'
+import EditProduct from '../pages/admin/EditProduct'
 
 import LayoutUser from '../Layouts/LayoutUser'
 import HomeUser from '../pages/user/HomeUser'
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
       {index:true, element:<Dashboard/>},
       {path:'category', element:<Category/>},
       {path:'product', element:<Product/>},
+      {path:'product/:id', element:<EditProduct/>},
       {path:'manage', element:<Manage/>},
     ]
   },

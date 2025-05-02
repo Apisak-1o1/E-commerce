@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Trash2, Wrench } from "lucide-react";
 import useEcomStore from "../../store/ecom-store";
-import { createProduct, deleteProduct } from "../../api/Product";
+import { createProduct, listProduct, readProduct,updateProduct  } from "../../api/Product";
 import { toast } from "react-toastify";
 import Uploadfile from "./Uploadfile";
-import { Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const initailState = {
   title: "Space Maraines",
@@ -15,18 +15,28 @@ const initailState = {
   images: [],
 };
 
-const FormProduct = () => {
+const FormEditProduct = () => {
+    const {id}=useParams()
+    const navigate = useNavigate()
+
   const token = useEcomStore((state) => state.token);
   const categories = useEcomStore((state) => state.categories);
   const getCategory = useEcomStore((state) => state.getCategory);
-  const getProduct = useEcomStore((state) => state.getProduct);
-  const products = useEcomStore((state) => state.products);
   const [form, setForm] = useState(initailState);
 
   useEffect(() => {
     getCategory(token);
-    getProduct(token, 100);
+    fetchProduct(token,id,form)
   }, []);
+
+  const fetchProduct = async(token,id,form)=>{
+    try {
+        const res = await readProduct(token,id,form)
+        setForm(res.data)
+    } catch (error) {
+        console.log("🚀 ~ fetchProduct ~ error:", error)
+    }
+  }
 
   const handleOnChange = (e) => {
     setForm({
@@ -37,20 +47,11 @@ const FormProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await createProduct(token, form);
+      const res = await updateProduct(token,id, form);
       toast.success(`Add Product ${res.data.name} Succesfully`);
+      navigate('/admin/product')
     } catch (error) {
       console.log("🚀 ~ handleSubmit ~ error:", error);
-    }
-  };
-  const handleDelete = async (id) => {
-    if(window.confirm('Are you really wish to delete this product?')){
-      try {
-        const res = await deleteProduct(token, id);
-        toast.success(`Delete Product ${res.data.name} Succesfully`);
-      } catch (error) {
-        console.log("🚀 ~ handleSubmit ~ error:", error);
-      }
     }
   };
 
@@ -129,8 +130,8 @@ const FormProduct = () => {
             </label>
           </div>
           <select
-            name="categoryId"
-            id="categoryId"
+            name="category"
+            id="category"
             className="my-1"
             onChange={handleOnChange}
             required
@@ -156,82 +157,10 @@ const FormProduct = () => {
             <Plus />
           </button>
             <Uploadfile form={form} setForm={setForm}/>
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">no</th>
-                <th scope="col">picture</th>
-                <th scope="col">Title</th>
-                <th scope="col">Description</th>
-                <th scope="col">Price</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">sold</th>
-                <th scope="col">updatedAt</th>
-                <th scope="col">manage</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((item, index) => {
-                return (
-                  <tr key={index}>
-                    <th scope="row">{index}</th>
-                    <td>{item.title}</td>
-                    <td>
-                      {
-                        item.images.length >0
-                        ? <img 
-                        className="w-16 h-16 rounded-md"
-                        src={item.images[0].url}/>
-                        : <div className="w-16 h-16 bg-gray-300 rounded-md text-center">No Image</div>
-                      }
-                    </td>
-                    <td>{item.description}</td>
-                    <td>{item.price}</td>
-                    <td>{item.quantity}</td>
-                    <td>{item.sold}</td>
-                    <td>{item.updatedAt}</td>
-                    <td   className="flex  justify-center">
-                      <Link to={'/admin/product/'+item.id}>
-                      <button
-                        type="submit"
-                        className="flex bg-yellow-600 text-white justify-center items-center rounded hover:bg-yellow-700 ml-1"
-                      >
-                        <Wrench />
-                      </button>
-                      </Link>
-                      <button
-                      onClick={()=>handleDelete(item.id)}
-                        type="submit"
-                        className="flex bg-red-400 text-white justify-center items-center rounded hover:bg-red-700 ml-1"
-                      >
-                        <Trash2 />
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
         </form>
-
-        {/* <hr /> */}
-        {/* <ul className="list-none">
-          {category.map((item, index) => (
-            <li key={index} className="flex justify-between m-1">
-              {item.name}
-              <button
-                type="submit"
-                onClick={()=>handleRemove(item)}
-                className="w-1/5 flex bg-red-400 text-white justify-center items-center rounded hover:bg-red-700 ml-1"
-              >
-                <Trash2  />
-              </button>
-            </li>
-          ))}
-        </ul> */}
       </div>
     </div>
   );
 };
 
-export default FormProduct;
+export default FormEditProduct;
