@@ -5,12 +5,13 @@ import { createProduct, deleteProduct } from "../../api/Product";
 import { toast } from "react-toastify";
 import Uploadfile from "./Uploadfile";
 import { Link } from "react-router-dom";
+import ProductTable from "./ProductTable";
 
 const initailState = {
-  title: "Space Maraines",
-  description: "Space Marines Figure",
-  price: 1200,
-  quantity: 5,
+  title: "",
+  description: "",
+  price: 0,
+  quantity: 0,
   categoryId: "",
   images: [],
 };
@@ -36,9 +37,15 @@ const FormProduct = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (form.categoryId === "" || !form.categoryId) {
+      alert("Please select a category.");
+      return
+    }
     try {
       const res = await createProduct(token, form);
       toast.success(`Add Product ${res.data.name} Succesfully`);
+      setForm(initailState)
+      getProduct(token, 100);
     } catch (error) {
       console.log("🚀 ~ handleSubmit ~ error:", error);
     }
@@ -48,6 +55,7 @@ const FormProduct = () => {
       try {
         const res = await deleteProduct(token, id);
         toast.success(`Delete Product ${res.data.name} Succesfully`);
+        getProduct(token, 100);
       } catch (error) {
         console.log("🚀 ~ handleSubmit ~ error:", error);
       }
@@ -56,7 +64,7 @@ const FormProduct = () => {
 
   return (
     <div className="container flex justify-center min-h-screen bg-gray-100">
-      <div className="my-5">
+      <div className="m-5 w-full">
         <h1 className="text-2xl font-semibold text-center mb-6">
           Product Management
         </h1>
@@ -95,7 +103,8 @@ const FormProduct = () => {
             </label>
           </div>
 
-          <div className="relative my-1">
+          <div className="flex">
+          <div className="relative my-1 mr-1 w-1/2">
             <input
               type="number"
               name="price"
@@ -112,7 +121,7 @@ const FormProduct = () => {
             </label>
           </div>
 
-          <div className="relative my-1">
+          <div className="relative my-1 ml-1 w-1/2">
             <input
               type="number"
               name="quantity"
@@ -128,10 +137,11 @@ const FormProduct = () => {
               Product Quantity
             </label>
           </div>
+          </div>
           <select
             name="categoryId"
             id="categoryId"
-            className="my-1"
+            className="my-1 w-full h-10"
             onChange={handleOnChange}
             required
             value={form.categoryId}
@@ -151,67 +161,12 @@ const FormProduct = () => {
           <button
             type="submit"
             onClick={handleSubmit}
-            className="w-1/4 flex bg-green-600 text-white justify-center items-center rounded hover:bg-green-700 ml-1"
+            className="w-full h-16 flex bg-green-600 text-white justify-center items-center rounded hover:bg-green-700"
           >
             <Plus />
           </button>
             <Uploadfile form={form} setForm={setForm}/>
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">no</th>
-                <th scope="col">picture</th>
-                <th scope="col">Title</th>
-                <th scope="col">Description</th>
-                <th scope="col">Price</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">sold</th>
-                <th scope="col">updatedAt</th>
-                <th scope="col">manage</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((item, index) => {
-                return (
-                  <tr key={index}>
-                    <th scope="row">{index}</th>
-                    <td>{item.title}</td>
-                    <td>
-                      {
-                        item.images.length >0
-                        ? <img 
-                        className="w-16 h-16 rounded-md"
-                        src={item.images[0].url}/>
-                        : <div className="w-16 h-16 bg-gray-300 rounded-md text-center">No Image</div>
-                      }
-                    </td>
-                    <td>{item.description}</td>
-                    <td>{item.price}</td>
-                    <td>{item.quantity}</td>
-                    <td>{item.sold}</td>
-                    <td>{item.updatedAt}</td>
-                    <td   className="flex  justify-center">
-                      <Link to={'/admin/product/'+item.id}>
-                      <button
-                        type="submit"
-                        className="flex bg-yellow-600 text-white justify-center items-center rounded hover:bg-yellow-700 ml-1"
-                      >
-                        <Wrench />
-                      </button>
-                      </Link>
-                      <button
-                      onClick={()=>handleDelete(item.id)}
-                        type="submit"
-                        className="flex bg-red-400 text-white justify-center items-center rounded hover:bg-red-700 ml-1"
-                      >
-                        <Trash2 />
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+            <ProductTable products={products} handleDelete={handleDelete} />
         </form>
 
         {/* <hr /> */}
