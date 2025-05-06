@@ -25,8 +25,8 @@ const FormProduct = () => {
   const [form, setForm] = useState(initailState);
 
   useEffect(() => {
-    getCategory(token);
-    getProduct(token, 100);
+    getCategory();
+    getProduct( 100);
   }, []);
 
   const handleOnChange = (e) => {
@@ -45,7 +45,7 @@ const FormProduct = () => {
       const res = await createProduct(token, form);
       toast.success(`Add Product ${res.data.name} Succesfully`);
       setForm(initailState)
-      getProduct(token, 100);
+      getProduct();
     } catch (error) {
       console.log("🚀 ~ handleSubmit ~ error:", error);
     }
@@ -55,7 +55,7 @@ const FormProduct = () => {
       try {
         const res = await deleteProduct(token, id);
         toast.success(`Delete Product ${res.data.name} Succesfully`);
-        getProduct(token, 100);
+        getProduct();
       } catch (error) {
         console.log("🚀 ~ handleSubmit ~ error:", error);
       }

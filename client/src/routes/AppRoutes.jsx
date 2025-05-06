@@ -20,6 +20,7 @@ import LayoutUser from '../Layouts/LayoutUser'
 import HomeUser from '../pages/user/HomeUser'
 import ProtectRouteUser from './ProtectRouteUser'
 import ProtectRouteAdmin from './ProtectRouteAdmin'
+import Payment from '../pages/user/Payment'
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,7 @@ const router = createBrowserRouter([
     element:<ProtectRouteUser element={<LayoutUser/>}/>, 
     children:[
       {index:true, element:<HomeUser/>},
+      {index:'payment', element:<Payment/>},
     ]
   },
 ])
