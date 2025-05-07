@@ -11,6 +11,15 @@ const ecomStore = (set, get) => ({
   categories: [],
   products: [],
   carts: [],
+  logout:()=>{
+    set({
+      user:null,
+      token:null,
+      categories: [],
+      products: [],
+      carts: [],
+    })
+  },
   actionAddtoCart: (product) => {
     const carts = get().carts;
     const updateCart = [...carts, { ...product, count: 1 }];
@@ -69,6 +78,7 @@ const ecomStore = (set, get) => ({
       console.log("🚀 ~ getCategory ~ error:", error);
     }
   },
+  clearCart:() => set({ carts:[] })
 });
 
 const usePersist = {

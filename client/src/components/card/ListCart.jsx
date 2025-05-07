@@ -3,7 +3,7 @@ import { ListCheck } from "lucide-react";
 import useEcomStore from "../../store/ecom-store";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-// import { numberFormat } from "../../utils/number";
+import { numberFormat } from "../../utils/number";
 import { createUserCart } from "../../api/user";
 
 const ListCart = () => {
@@ -59,13 +59,13 @@ const ListCart = () => {
                   <div>
                     <p className="font-bold">{item.title}</p>
                     <p className="text-sm">
-                      {(item.price)} x {item.count}
+                      {numberFormat(item.price)} x {item.count}
                     </p>
                   </div>
                 </div>
                 <div>
                   <div className="font-bold text-blue-500">
-                    {(item.price * item.count)}
+                    {numberFormat(item.price * item.count)}
                   </div>
                 </div>
               </div>
@@ -78,7 +78,7 @@ const ListCart = () => {
           <div className="flex justify-between">
             <span>รวมสุทธิ</span>
             <span className="text-2xl font-bold">
-              {(getTotalPrice())}
+              {numberFormat(getTotalPrice())}
             </span>
           </div>
 

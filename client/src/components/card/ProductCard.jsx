@@ -1,11 +1,17 @@
 import React from "react";
 import { ShoppingBasket } from "lucide-react";
 import useEcomStore from "../../store/ecom-store";
+import { numberFormat } from "../../utils/number";
+import { motion } from "framer-motion";
 
 const ProductCard = ({ item }) => {
   const actionAddtoCart = useEcomStore((state)=>state.actionAddtoCart)
 
   return (
+    <motion.div
+    whileHover={{ scale: 1.2 }}
+    whileTap={{ scale: 0.8 }}
+>
     <div className="border rounded-md shadow-md p-2 w-48">
       <div>
         {item.images && item.images.length > 0 ? (
@@ -18,17 +24,18 @@ const ProductCard = ({ item }) => {
       </div>
 
       <div className="py-2">
-        <p className="text-xl">{item.title}</p>
-        <p className="text-sm">{item.description}</p>
+        <p className="text-xl truncate">{item.title}</p>
+        <p className="text-sm truncate">{item.description}</p>
       </div>
 
       <div className="flex justify-between items-center">
-        <span className="text-m font-bold">{item.price}</span>
+        <span className="text-m font-bold">{numberFormat(item.price)}</span>
         <button className="bg-blue-500 rounded-md p-2 hover:bg-blue-600 shadow-md" onClick={()=> actionAddtoCart(item)}>
           <ShoppingBasket />
         </button>
       </div>
     </div>
+    </motion.div>
   );
 };
 

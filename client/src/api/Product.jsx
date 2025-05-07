@@ -57,3 +57,12 @@ export const removeFiles = async (token, public_id)=> {
 export const searchFilters = async (arg)=> {
     return await axiosInstance.post('search/filters',arg)
 }
+export const listProductBy = async (sort,order,limit)=> {
+    return await axiosInstance.post('productby',
+        {
+            sort,
+            order,
+            limit
+        }
+    )
+}

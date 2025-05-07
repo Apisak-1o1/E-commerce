@@ -1,6 +1,8 @@
 import React from "react";
 import { Wrench, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { numberFormat } from "../../utils/number";
+import { dateFormat } from "../../utils/dateformat";
 
 const ProductTable = ({ products, handleDelete }) => {
   return (
@@ -62,7 +64,7 @@ const ProductTable = ({ products, handleDelete }) => {
               {item.description}
             </td>
             <td className="px-4 py-3  border-b border-gray-200">
-              ${item.price}
+              $ {numberFormat(item.price)}
             </td>
             <td className="px-4 py-3  border-b border-gray-200">
               {item.quantity}
@@ -71,7 +73,7 @@ const ProductTable = ({ products, handleDelete }) => {
               {item.sold}
             </td>
             <td className="px-4 py-3  border-b border-gray-200">
-              {item.updatedAt}
+              {dateFormat(item.updatedAt)}
             </td>
             <td className="px-4 py-6  border-gray-200 flex justify-evenly ">
               <Link to={"/admin/product/" + item.id}>

@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import useEcomStore from "../../store/ecom-store";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+import { numberFormat } from "../../utils/number";
 
 const SearchCard = () => {
   const getProduct = useEcomStore((state) => state.getProduct);
@@ -96,21 +98,20 @@ const SearchCard = () => {
         </div>
 
         <hr />
-        {/* Search by Price */}
         <div>
           <h1>ค้นหาราคา</h1>
           <div>
             <div className="flex justify-between">
-              <span>Min : {(price[0])}</span>
-              <span>Max : {(price[1])}</span>
+              <span>Min : {numberFormat(price[0])}</span>
+              <span>Max : {numberFormat(price[1])}</span>
             </div>
 
             <Slider
               onChange={handlePrice}
               range
               min={0}
-              max={10000}
-              defaultValue={[1000, 9000]}
+              max={100000}
+              defaultValue={[1000, 30000]}
             />
           </div>
         </div>

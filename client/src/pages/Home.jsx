@@ -1,10 +1,19 @@
 import React from 'react'
+import ContentCarousel from '../components/home/ContentCarousel'
+import BestSeller from '../components/home/BestSeller'
+import NewProduct from '../components/home/NewProduct'
 
 const Home = () => {
   return (
-    <h1 className="text-3xl font-bold underline">
-    Home page
-  </h1>
+    <div>
+    <ContentCarousel/>
+
+    <p className="text-2xl text-center my-4">BEST SELLER</p>
+      <BestSeller />
+
+      <p className="text-2xl text-center my-4">NEW</p>
+      <NewProduct />
+  </div>
   )
 }
 

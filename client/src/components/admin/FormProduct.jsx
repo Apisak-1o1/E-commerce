@@ -7,6 +7,7 @@ import Uploadfile from "./Uploadfile";
 import { Link } from "react-router-dom";
 import ProductTable from "./ProductTable";
 
+
 const initailState = {
   title: "",
   description: "",
@@ -168,22 +169,6 @@ const FormProduct = () => {
             <Uploadfile form={form} setForm={setForm}/>
             <ProductTable products={products} handleDelete={handleDelete} />
         </form>
-
-        {/* <hr /> */}
-        {/* <ul className="list-none">
-          {category.map((item, index) => (
-            <li key={index} className="flex justify-between m-1">
-              {item.name}
-              <button
-                type="submit"
-                onClick={()=>handleRemove(item)}
-                className="w-1/5 flex bg-red-400 text-white justify-center items-center rounded hover:bg-red-700 ml-1"
-              >
-                <Trash2  />
-              </button>
-            </li>
-          ))}
-        </ul> */}
       </div>
     </div>
   );

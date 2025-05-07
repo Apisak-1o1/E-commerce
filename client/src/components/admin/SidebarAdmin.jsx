@@ -54,6 +54,17 @@ const SidebarAdmin = () => {
           <ListCollapse className="mr-2" />
           Product
         </NavLink>
+        <NavLink
+          to={"orders"}
+          className={({ isActive }) =>
+            isActive
+              ? "bg-gray-700  text-gray-200 px-4 py-2 rounded flex items-center"
+              : "text-white px-4 py-2 hover:bg-gray-800 rounded flex items-center"
+          }
+        >
+          <ListCollapse className="mr-2" />
+          Orders
+        </NavLink>
       </nav>
       <div>
         <NavLink

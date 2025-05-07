@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { listUserCart, saveAddress } from "../../api/user";
 import useEcomStore from "../../store/ecom-store";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-// import { numberFormat } from "../../utils/number";
+import { numberFormat } from "../../utils/number";
 
 
 const SummaryCard = () => {
@@ -94,13 +95,13 @@ const SummaryCard = () => {
                   <div>
                     <p className="font-bold">{item.product.title}</p>
                     <p className="text-sm">
-                      จำนวน : {item.count} x {(item.product.price) }
+                      จำนวน : {item.count} x {numberFormat(item.product.price) }
                     </p>
                   </div>
 
                   <div>
                     <p className="text-red-500 font-bold">
-                      { (item.count * item.product.price)     }
+                      { numberFormat(item.count * item.product.price)     }
                     </p>
                   </div>
                 </div>
@@ -122,7 +123,7 @@ const SummaryCard = () => {
             <div>
               <div className="flex justify-between">
                 <p className="font-bold">ยอดรวมสุทธิ:</p>
-                <p className="text-red-500 font-bold text-lg">{(cartTotal) }</p>
+                <p className="text-red-500 font-bold text-lg">{numberFormat(cartTotal) }</p>
               </div>
             </div>
 
