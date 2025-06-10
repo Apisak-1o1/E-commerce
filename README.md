@@ -2,7 +2,7 @@
 This is a full-stack E-commerce Website built with modern web technologies, providing a seamless shopping experience. The project includes user authentication, product listing, cart functionality, and order management.
 
 # 🚀 Tech Stack
-##Frontend:
+## Frontend:
 React.js – Component-based UI development
 Tailwind CSS
 
